@@ -10,7 +10,7 @@ config();
     ARBOX_LOCATION_ID = '',
     ARBOX_SESSION_JWT = '',
     ARBOX_EMAIL = '',
-    ARBOX_PASSWORD = ''
+    ARBOX_PASSWORD = '',
   } = process.env;
 
   const arbox = new ArBoxApp(
@@ -22,6 +22,6 @@ config();
     ARBOX_PASSWORD
   );
 
-  const res = await arbox.getLessonMembers(6704016);
+  const res = await arbox.getBoxSales('2021-10-01', '2021-10-31');
   console.log(res);
 })();

@@ -1,6 +1,6 @@
 import moment from 'moment';
 import queryString from 'query-string';
-import {config} from 'dotenv';
+import { config } from 'dotenv';
 import ArBoxAppConnection from './connetion';
 import {
   Arbox,
@@ -9,10 +9,10 @@ import {
   Lead,
   LeadExtended,
 } from './types/arbox';
-import {SearchQueryResult} from './types/query';
-import {Reports} from './types/reports';
-import {Customers} from './types/customers';
-import {Schedule} from './types/schedule';
+import { SearchQueryResult } from './types/query';
+import { Reports } from './types/reports';
+import { Customers } from './types/customers';
+import { Schedule } from './types/schedule';
 
 config();
 
@@ -132,7 +132,7 @@ export default class ArBoxApp {
     const dataReq = await conn.serverRequest(
       `https://api.arboxapp.com/index.php/api/v1/lead/getLeadConverted/${this.connection.config.boxId}`,
       'post',
-      {fromDate, toDate}
+      { fromDate, toDate }
     );
     return dataReq.data;
   }
@@ -145,7 +145,25 @@ export default class ArBoxApp {
     const dataReq = await conn.serverRequest(
       'https://api.arboxapp.com/index.php/api/v1/reports/global/transactions',
       'post',
-      {fromDate, toDate}
+      { fromDate, toDate }
+    );
+    return dataReq.data;
+  }
+
+  async getBoxSales(
+    fromDate = moment().format('YYYY-MM-DD'),
+    toDate = moment().format('YYYY-MM-DD'),
+    reportType = 'detailedReport'
+  ): Promise<Arbox.Sales> {
+    const conn = await this.ensureConnection();
+    const dataReq = await conn.serverRequest(
+      'https://api.arboxapp.com/index.php/api/v1/reports/getBoxSales',
+      'post',
+      {
+        'from_date': fromDate,
+        'to_date': toDate,
+        'report_type': reportType
+      }
     );
     return dataReq.data;
   }
@@ -183,7 +201,7 @@ export default class ArBoxApp {
   async getLead(leadId: number): Promise<LeadExtended> {
     const conn = await this.ensureConnection();
 
-    const {data} = await conn.serverRequest(
+    const { data } = await conn.serverRequest(
       `https://api.arboxapp.com/index.php/api/v1/lead/getById/${leadId}`,
       'GET'
     );
@@ -194,7 +212,7 @@ export default class ArBoxApp {
   async getLeadTasks(leadId: number): Promise<[Arbox.Task]> {
     const conn = await this.ensureConnection();
 
-    const {data} = await conn.serverRequest(
+    const { data } = await conn.serverRequest(
       `https://api.arboxapp.com/index.php/api/v1/tasks/${this.connection.config.boxId}/lead/${leadId}`,
       'GET'
     );
@@ -204,7 +222,7 @@ export default class ArBoxApp {
 
   async getLeadSchedule(leadId: number): Promise<[Arbox.LeadSchedule]> {
     const conn = await this.ensureConnection();
-    const {data} = await conn.serverRequest(
+    const { data } = await conn.serverRequest(
       `https://api.arboxapp.com/index.php/api/v1/lead/${leadId}/schedules`,
       'POST'
     );
@@ -225,7 +243,7 @@ export default class ArBoxApp {
       newStatus
     };
 
-    const {data} = await conn.serverRequest(
+    const { data } = await conn.serverRequest(
       `https://api.arboxapp.com/index.php/api/v1/lead/updateStatus/${leadId}`,
       'POST',
       params
@@ -242,7 +260,7 @@ export default class ArBoxApp {
     systemUser?: Arbox.SystemUser
   ) {
     const conn = await this.ensureConnection();
-    const {data} = await conn.serverRequest(
+    const { data } = await conn.serverRequest(
       'https://api.arboxapp.com/index.php/api/v1/tasks',
       'post',
       {
@@ -307,7 +325,7 @@ export default class ArBoxApp {
     to = moment().endOf('week').toDate()
   ): Promise<[Arbox.Birthday]> {
     const conn = await this.ensureConnection();
-    const {data} = await conn.serverRequest(
+    const { data } = await conn.serverRequest(
       `https://api.arboxapp.com/index.php/api/v1/user/GetTodayBirthdays/${this.connection.config.boxId}`,
       'post',
       {
@@ -331,17 +349,17 @@ export default class ArBoxApp {
     toDate: Date | string
   ): Promise<Schedule.ScheduleLesson> {
     const conn = await this.ensureConnection();
-    const {locationId, boxId} = this.connection.config;
+    const { locationId, boxId } = this.connection.config;
 
     const queryParams = queryString.stringify({
       fromDate: moment(fromDate).format('YYYY-MM-DD'),
       toDate: moment(toDate).format('YYYY-MM-DD'),
-      location:locationId,
+      location: locationId,
       coach: undefined,
       schedule: undefined
     });
 
-    const {data} = await conn.serverRequest(
+    const { data } = await conn.serverRequest(
       `https://api.arboxapp.com/index.php/api/v1/rangeSchedule/${boxId}?${queryParams}`,
       'GET'
     );
@@ -350,7 +368,7 @@ export default class ArBoxApp {
 
   async getLessonMembers(lessonId: number): Promise<Schedule.LessonMembers> {
     const conn = await this.ensureConnection();
-    const {data} = await conn.serverRequest(
+    const { data } = await conn.serverRequest(
       `https://api.arboxapp.com/index.php/api/v1/schedule/${lessonId}/members`,
       'GET'
     );
@@ -359,7 +377,7 @@ export default class ArBoxApp {
 
   async searchByName(query: string): Promise<SearchQueryResult> {
     const conn = await this.ensureConnection();
-    const {data} = await conn.serverRequest(
+    const { data } = await conn.serverRequest(
       `https://api.arboxapp.com/index.php/api/v1/searchForMember/${encodeURIComponent(
         query
       )}`,
@@ -370,7 +388,7 @@ export default class ArBoxApp {
 
   async getMembersProperties(): Promise<Reports.MemberProperties[]> {
     const conn = await this.ensureConnection();
-    const {data} = await conn.serverRequest(
+    const { data } = await conn.serverRequest(
       `https://api.arboxapp.com/index.php/api/v1/box/226/checkboxesUserBox`,
       'POST'
     );

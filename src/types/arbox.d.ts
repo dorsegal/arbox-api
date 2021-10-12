@@ -314,4 +314,35 @@ declare module Arbox {
     transaction_date: string;
 
   }
+
+  export interface Sale {
+    location: string;
+    id: number;
+    action: string;
+    sub_action: string;
+    selling_price: string;
+    created_at: string;
+    first_name: string;
+    last_name: string;
+    child: number;
+    user_fk: number;
+    membership_type_id: number;
+    membership_type_name: string;
+    membership_type_price: number;
+    membership_type_type: string;
+    department_id?: number;
+    department_name: string;
+    membership_id: number;
+    membership_price: number;
+    groups_id?: any;
+    membership_debt: number;
+    head?: any;
+    created_by_user: string;
+    created_by_user_box_id: number;
+    image_public_id_cloudinary?: any;
+    discount: number;
+    paid: number;
+}
+
+export type Sales = Sale[];
 }
