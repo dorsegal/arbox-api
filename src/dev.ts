@@ -19,9 +19,10 @@ config();
     Number(ARBOX_LOCATION_ID),
     ARBOX_SESSION_JWT,
     ARBOX_EMAIL,
-    ARBOX_PASSWORD
+    ARBOX_PASSWORD,
+    true
   );
 
-  const res = await arbox.getBoxSales('2021-10-01', '2021-10-31');
+  const res = await arbox.getSuspendedUsers();
   console.log(res);
 })();

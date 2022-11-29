@@ -23,7 +23,7 @@ export default class ArBoxAppConnection {
     this.demoMode = demoMode;
   }
 
-  async serverRequest(url: string, method: Method, data?: {}) {
+  async serverRequest<T = any>(url: string, method: Method, data?: {}) {
     if (this.debug) {
       console.log('[Debug] serverRequest :: ', method, url, data);
     }
@@ -31,7 +31,7 @@ export default class ArBoxAppConnection {
     const accesstoken = this.token;
 
     if (!this.demoMode) {
-      return axios({
+      return axios<T>({
         url,
         method,
         data,
@@ -83,7 +83,7 @@ export default class ArBoxAppConnection {
 
   async generateSessionToken() {
     // if previos token isnt working its either errorneous or broken
-    this.token = "";
+    this.token = '';
 
     const serverData = await this.serverRequest(
       `https://api.arboxapp.com/index.php/api/v1/user/${this.config.email}/session`,
