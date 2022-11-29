@@ -1,6 +1,6 @@
 import {config} from 'dotenv';
+import {describe, expect, it} from 'vitest';
 import ArBoxApp from './ArBoxApp';
-
 config();
 
 describe('ArBoxApp', () => {
