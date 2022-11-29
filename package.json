@@ -17,38 +17,40 @@
     "test:coverage": "jest --coverage",
     "prepush": "npm run build",
     "prepublish": "tsc",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "prepare": "husky install",
+    "upgrade-latest": "yarn upgrade-interactive --latest"
   },
   "homepage": "www.pavel-kaminsky.com",
   "dependencies": {
-    "axios": "^0.21.1",
-    "dotenv": "^8.0.0",
+    "axios": "^1.2.0",
+    "dotenv": "^16.0.3",
+    "lint-staged": "^13.0.4",
     "lodash": "^4.17.15",
     "moment": "^2.22.2",
-    "query-string": "^6.14.0"
+    "query-string": "^7.1.1"
   },
   "devDependencies": {
     "@types/dotenv": "8.2.0",
-    "@types/jest": "^26.0.20",
-    "@types/lodash": "4.14.168",
-    "@types/node": "14.14.31",
-    "@typescript-eslint/eslint-plugin": "^4.15.2",
-    "@typescript-eslint/parser": "^4.15.2",
+    "@types/jest": "^29.2.3",
+    "@types/lodash": "4.14.190",
+    "@types/node": "18.11.9",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
     "commitizen": "^4.2.3",
     "cross-env": "7.0.3",
-    "eslint": "7.20.0",
-    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint": "8.28.0",
+    "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.22.1",
-    "husky": "=4",
-    "jest": "26.6.3",
-    "lint-staged": "^10.5.4",
-    "prettier": "2.2.1",
-    "semantic-release": "^17.3.9",
+    "husky": "^8.0.2",
+    "jest": "29.3.1",
+    "prettier": "2.8.0",
+    "semantic-release": "^19.0.5",
     "semantic-release-cli": "^5.4.3",
-    "ts-jest": "^26.5.2",
-    "ts-node-dev": "1.1.1",
-    "typescript": "4.2.2"
+    "ts-jest": "^29.0.3",
+    "ts-node-dev": "2.0.0",
+    "typescript": "4.9.3"
   },
   "repository": {
     "type": "git",
@@ -56,11 +58,6 @@
   },
   "bugs": {
     "url": "https://github.com/kaminskypavel/arbox-api/issues"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix",
