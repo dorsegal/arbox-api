@@ -407,7 +407,7 @@ export default class ArBoxApp {
       'GET'
     );
     return data;
-  }
+  } 
 
   private async ensureConnection() {
     await this.connection.forceConnection();

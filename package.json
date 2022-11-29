@@ -56,7 +56,7 @@
     "url": "https://github.com/kaminskypavel/arbox-api/issues"
   },
   "lint-staged": {
-    "*.js": "eslint --cache --fix",
+    "*.{ts,js}": "eslint --cache --fix",
     "*.{js,css,md}": "prettier --write"
   }
 }
