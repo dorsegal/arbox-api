@@ -16,10 +16,5 @@
     "forceConsistentCasingInFileNames": true,
     "declaration": true
   },
-  "exclude": [
-    "**/*.spec.*",
-    "node_modules",
-    "dist"
-    "src/dev.ts"
-  ]
+  "exclude": ["**/*.spec.*", "node_modules", "dist", "src/dev.ts"]
 }
