@@ -1,7 +1,9 @@
 [![npm version](https://badge.fury.io/js/arbox-api.svg)](https://badge.fury.io/js/arbox-api)
 
+[![Release](https://github.com/kaminskypavel/arbox-api/actions/workflows/release.yml/badge.svg)](https://github.com/kaminskypavel/arbox-api/actions/workflows/release.yml)
+
 # arbox-api
 
-An advanced api (unofficial) used for managing [CrossFit Panda](www.crossfitpanda.com) with [Arbox](www.arboxapp.com)
+An unofficial api used for managing [CrossFit Panda](https://www.crossfitpanda.com) with [Arbox](https://www.arboxapp.com)
 
-## This is a work in progress 🛑🤚
+**⚠️🛑 This is a work in progress 🛑⚠️**
