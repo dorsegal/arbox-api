@@ -41,45 +41,45 @@ export default class ArBoxApp {
     );
   }
 
-  async getAllCustomers(): Promise<string> {
+  async getAllCustomers() {
     const conn = await this.ensureConnection();
-    const dataReq = await conn.serverRequest(
+    const dataReq = await conn.serverRequest<string>(
       `https://api.arboxapp.com/index.php/api/v1/box/${this.connection.config.boxId}/getUsersAndLeadsJson`,
-      'get'
+      'GET'
     );
     return dataReq.data;
   }
 
   // מנויים פעילים
-  async getAllActiveCustomers(): Promise<Arbox.ActiveMember[]> {
+  async getAllActiveCustomers() {
     const conn = await this.ensureConnection();
-    const dataReq = await conn.serverRequest(
+    const dataReq = await conn.serverRequest<Arbox.ActiveMember[]>(
       `https://api.arboxapp.com/index.php/api/v1/box/${this.connection.config.boxId}/activeMembers/detailedReport/null`,
-      'get'
+      'GET'
     );
     return dataReq.data;
   }
 
   // https://api.arboxapp.com/index.php/api/v1/box/226/getActiveUsersWithMembership
-  async getActiveUsersWithMembership(): Promise<Arbox.MemberCustomer[]> {
+  async getActiveUsersWithMembership() {
     const conn = await this.ensureConnection();
-    const dataReq = await conn.serverRequest(
+    const dataReq = await conn.serverRequest<Arbox.MemberCustomer[]>(
       `https://api.arboxapp.com/index.php/api/v1/box/${this.connection.config.boxId}/getActiveUsersWithMembership`,
-      'get'
+      'GET'
     );
     return dataReq.data;
   }
 
   // ריכוז לקוחות פעילים
 
-  async getLeadAttendance(
-    leadId: number | string
-  ): Promise<[Schedule.Attendance] | undefined> {
+  async getLeadAttendance(leadId: number | string) {
     const conn = await this.ensureConnection();
     try {
-      const dataReq = await conn.serverRequest(
+      const dataReq = await conn.serverRequest<
+        [Schedule.Attendance] | undefined
+      >(
         `https://api.arboxapp.com/index.php/api/v1/lead/${leadId}/schedules`,
-        'post'
+        'POST'
       );
       return dataReq.data;
     } catch (e) {
@@ -90,11 +90,11 @@ export default class ArBoxApp {
   async getEndingMembership(
     fromDate = moment().format('YYYY-MM-DD'),
     toDate = moment().format('YYYY-MM-DD')
-  ): Promise<EnedeMembership[]> {
+  ) {
     const conn = await this.ensureConnection();
-    const dataReq = await conn.serverRequest(
+    const dataReq = await conn.serverRequest<EnedeMembership[]>(
       `https://api.arboxapp.com/index.php/api/v1/user/getEndingMembership/${this.connection.config.boxId}`,
-      'post',
+      'POST',
       {
         fromDate,
         toDate,
@@ -104,20 +104,20 @@ export default class ArBoxApp {
     return dataReq.data;
   }
 
-  async getAllCustomersExtraDataDump(): Promise<Customers.ExtraData[]> {
+  async getAllCustomersExtraDataDump() {
     const conn = await this.ensureConnection();
-    const dataReq = await conn.serverRequest(
+    const dataReq = await conn.serverRequest<Customers.ExtraData[]>(
       `https://api.arboxapp.com/index.php/api/v1/user/${this.connection.config.boxId}/extraData/`,
-      'post'
+      'POST'
     );
     return dataReq.data;
   }
 
-  async getAllOpenLeads(): Promise<[Lead]> {
+  async getAllOpenLeads() {
     const conn = await this.ensureConnection();
-    const dataReq = await conn.serverRequest(
+    const dataReq = await conn.serverRequest<[Lead]>(
       `https://api.arboxapp.com/index.php/api/v1/box/${this.connection.config.boxId}/openLeads/null`,
-      'get'
+      'GET'
     );
     return dataReq.data;
   }
@@ -127,11 +127,11 @@ export default class ArBoxApp {
   async getConvertedLeads(
     fromDate = moment().format('YYYY-MM-DD'),
     toDate = moment().format('YYYY-MM-DD')
-  ): Promise<[ConvertedLead]> {
+  ) {
     const conn = await this.ensureConnection();
-    const dataReq = await conn.serverRequest(
+    const dataReq = await conn.serverRequest<[ConvertedLead]>(
       `https://api.arboxapp.com/index.php/api/v1/lead/getLeadConverted/${this.connection.config.boxId}`,
-      'post',
+      'POST',
       {fromDate, toDate}
     );
     return dataReq.data;
@@ -140,11 +140,11 @@ export default class ArBoxApp {
   async getTransactions(
     fromDate = moment().format('YYYY-MM-DD'),
     toDate = moment().format('YYYY-MM-DD')
-  ): Promise<[Arbox.Transaction]> {
+  ) {
     const conn = await this.ensureConnection();
-    const dataReq = await conn.serverRequest(
+    const dataReq = await conn.serverRequest<[Arbox.Transaction]>(
       'https://api.arboxapp.com/index.php/api/v1/reports/global/transactions',
-      'post',
+      'POST',
       {fromDate, toDate}
     );
     return dataReq.data;
@@ -154,11 +154,11 @@ export default class ArBoxApp {
     fromDate = moment().format('YYYY-MM-DD'),
     toDate = moment().format('YYYY-MM-DD'),
     reportType = 'detailedReport'
-  ): Promise<Arbox.Sales> {
+  ) {
     const conn = await this.ensureConnection();
-    const dataReq = await conn.serverRequest(
+    const dataReq = await conn.serverRequest<Arbox.Sales>(
       'https://api.arboxapp.com/index.php/api/v1/reports/getBoxSales',
-      'post',
+      'POST',
       {
         from_date: fromDate,
         to_date: toDate,
@@ -181,7 +181,7 @@ export default class ArBoxApp {
     const conn = await this.ensureConnection();
     const dataReq = await conn.serverRequest(
       `https://api.arboxapp.com/index.php/api/v1/lead/${this.connection.config.boxId}`,
-      'post',
+      'POST',
       {
         allow_mailing_list: 'unknown',
         allow_sms: 'unknown',
@@ -198,10 +198,10 @@ export default class ArBoxApp {
     return dataReq.data;
   }
 
-  async getLead(leadId: number): Promise<LeadExtended> {
+  async getLead(leadId: number) {
     const conn = await this.ensureConnection();
 
-    const {data} = await conn.serverRequest(
+    const {data} = await conn.serverRequest<LeadExtended>(
       `https://api.arboxapp.com/index.php/api/v1/lead/getById/${leadId}`,
       'GET'
     );
@@ -209,10 +209,10 @@ export default class ArBoxApp {
     return data;
   }
 
-  async getLeadTasks(leadId: number): Promise<[Arbox.Task]> {
+  async getLeadTasks(leadId: number) {
     const conn = await this.ensureConnection();
 
-    const {data} = await conn.serverRequest(
+    const {data} = await conn.serverRequest<Arbox.Task>(
       `https://api.arboxapp.com/index.php/api/v1/tasks/${this.connection.config.boxId}/lead/${leadId}`,
       'GET'
     );
@@ -220,9 +220,9 @@ export default class ArBoxApp {
     return data;
   }
 
-  async getLeadSchedule(leadId: number): Promise<[Arbox.LeadSchedule]> {
+  async getLeadSchedule(leadId: number) {
     const conn = await this.ensureConnection();
-    const {data} = await conn.serverRequest(
+    const {data} = await conn.serverRequest<[Arbox.LeadSchedule]>(
       `https://api.arboxapp.com/index.php/api/v1/lead/${leadId}/schedules`,
       'POST'
     );
@@ -230,11 +230,7 @@ export default class ArBoxApp {
     return data;
   }
 
-  async updateLeadStatus(
-    leadId: number,
-    comment = '',
-    newStatus = '1629'
-  ): Promise<Lead> {
+  async updateLeadStatus(leadId: number, comment = '', newStatus = '1629') {
     const conn = await this.ensureConnection();
     const params = {
       boxId: this.connection.config.boxId,
@@ -243,7 +239,7 @@ export default class ArBoxApp {
       newStatus,
     };
 
-    const {data} = await conn.serverRequest(
+    const {data} = await conn.serverRequest<Lead>(
       `https://api.arboxapp.com/index.php/api/v1/lead/updateStatus/${leadId}`,
       'POST',
       params
@@ -262,7 +258,7 @@ export default class ArBoxApp {
     const conn = await this.ensureConnection();
     const {data} = await conn.serverRequest(
       'https://api.arboxapp.com/index.php/api/v1/tasks',
-      'post',
+      'POST',
       {
         systemUser,
         boxFk: this.connection.config.boxId,
@@ -287,13 +283,13 @@ export default class ArBoxApp {
   async getAllTasks(
     fromDate = moment().startOf('week').format('YYYY-MM-DD'),
     toDate = moment().endOf('week').format('YYYY-MM-DD')
-  ): Promise<Arbox.Tasks> {
+  ) {
     const conn = await this.ensureConnection();
 
     const getTaskPage = async (page = 1): Promise<Arbox.Tasks> => {
-      const res = await conn.serverRequest(
+      const res = await conn.serverRequest<Arbox.Tasks>(
         `https://api.arboxapp.com/index.php/api/v1/tasks/226/betweenDates/1?page=${page}`,
-        'post',
+        'POST',
         {
           fromDate,
           toDate,
@@ -323,11 +319,11 @@ export default class ArBoxApp {
   async getBirthdays(
     from = moment().startOf('week').toDate(),
     to = moment().endOf('week').toDate()
-  ): Promise<[Arbox.Birthday]> {
+  ) {
     const conn = await this.ensureConnection();
-    const {data} = await conn.serverRequest(
+    const {data} = await conn.serverRequest<Arbox.Birthday>(
       `https://api.arboxapp.com/index.php/api/v1/user/GetTodayBirthdays/${this.connection.config.boxId}`,
-      'post',
+      'POST',
       {
         fromDate: moment(from).format('YYYY-MM-DD'),
         toDate: moment(to).format('YYYY-MM-DD'),
@@ -344,10 +340,7 @@ export default class ArBoxApp {
    */
 
   // https://api.arboxapp.com/index.php/api/v1/rangeSchedule/226?fromDate=2021-03-14&toDate=2021-03-21&location=282&coach=undefined&schedule=undefined
-  async getLessons(
-    fromDate: Date | string,
-    toDate: Date | string
-  ): Promise<Schedule.ScheduleLesson> {
+  async getLessons(fromDate: Date | string, toDate: Date | string) {
     const conn = await this.ensureConnection();
     const {locationId, boxId} = this.connection.config;
 
@@ -359,25 +352,25 @@ export default class ArBoxApp {
       schedule: undefined,
     });
 
-    const {data} = await conn.serverRequest(
+    const {data} = await conn.serverRequest<Schedule.ScheduleLesson>(
       `https://api.arboxapp.com/index.php/api/v1/rangeSchedule/${boxId}?${queryParams}`,
       'GET'
     );
     return data;
   }
 
-  async getLessonMembers(lessonId: number): Promise<Schedule.LessonMembers> {
+  async getLessonMembers(lessonId: number) {
     const conn = await this.ensureConnection();
-    const {data} = await conn.serverRequest(
+    const {data} = await conn.serverRequest<Schedule.LessonMembers>(
       `https://api.arboxapp.com/index.php/api/v1/schedule/${lessonId}/members`,
       'GET'
     );
     return data;
   }
 
-  async searchByName(query: string): Promise<SearchQueryResult> {
+  async searchByName(query: string) {
     const conn = await this.ensureConnection();
-    const {data} = await conn.serverRequest(
+    const {data} = await conn.serverRequest<SearchQueryResult>(
       `https://api.arboxapp.com/index.php/api/v1/searchForMember/${encodeURIComponent(
         query
       )}`,
@@ -407,7 +400,7 @@ export default class ArBoxApp {
       'GET'
     );
     return data;
-  } 
+  }
 
   private async ensureConnection() {
     await this.connection.forceConnection();

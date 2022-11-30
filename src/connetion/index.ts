@@ -23,7 +23,11 @@ export default class ArBoxAppConnection {
     this.demoMode = demoMode;
   }
 
-  async serverRequest<T = any>(url: string, method: Method, data?: {}) {
+  async serverRequest<T = any>(
+    url: string,
+    method: Method,
+    data = {}
+  ): Promise<{data: T}> {
     if (this.debug) {
       console.log('[Debug] serverRequest :: ', method, url, data);
     }
@@ -31,7 +35,7 @@ export default class ArBoxAppConnection {
     const accesstoken = this.token;
 
     if (!this.demoMode) {
-      return axios<T>({
+      return axios({
         url,
         method,
         data,
@@ -51,7 +55,7 @@ export default class ArBoxAppConnection {
       '[Debug] serverRequest :: DEMO MODE! skipping a real server call'
     );
 
-    return Promise.resolve({data: 'demo data'});
+    return Promise.resolve({data: 'demo data' as unknown as T});
   }
 
   async isConnected(): Promise<boolean> {

@@ -117,8 +117,7 @@ export interface LeadExtended {
   llr_name?: any;
 }
 
-declare module Arbox {
-
+export declare namespace Arbox {
   export interface TaskType {
     id: number;
     boxFk: number;
@@ -312,7 +311,6 @@ declare module Arbox {
     status: string;
     create_by: string;
     transaction_date: string;
-
   }
 
   export interface Sale {
@@ -342,7 +340,7 @@ declare module Arbox {
     image_public_id_cloudinary?: any;
     discount: number;
     paid: number;
-}
+  }
 
-export type Sales = Sale[];
+  export type Sales = Sale[];
 }

@@ -15,14 +15,14 @@
     "test": "vitest --passWithNoTests",
     "test:watch": "vitest --watch",
     "prepush": "npm run build",
-    "prepublish": "tsc",
+    "prepublish": "yarn build",
     "semantic-release": "semantic-release",
     "prepare": "husky install",
     "upgrade-latest": "yarn upgrade-interactive --latest"
   },
   "homepage": "www.pavel-kaminsky.com",
   "dependencies": {
-    "axios": "^1.2.0",
+    "axios": "^0.21",
     "dotenv": "^16.0.3",
     "lodash": "^4.17.15",
     "moment": "^2.22.2",
