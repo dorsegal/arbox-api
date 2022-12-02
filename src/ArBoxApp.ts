@@ -1,6 +1,6 @@
 import moment from 'moment';
 import queryString from 'query-string';
-import { config } from 'dotenv';
+import {config} from 'dotenv';
 import ArBoxAppConnection from './connetion';
 import {
   Arbox,
@@ -9,10 +9,10 @@ import {
   Lead,
   LeadExtended,
 } from './types/arbox';
-import { SearchQueryResult } from './types/query';
-import { Reports } from './types/reports';
-import { Customers } from './types/customers';
-import { Schedule } from './types/schedule';
+import {SearchQueryResult} from './types/query';
+import {Reports} from './types/reports';
+import {Customers} from './types/customers';
+import {Schedule} from './types/schedule';
 
 config();
 
@@ -400,6 +400,25 @@ export default class ArBoxApp {
       'GET'
     );
     return data;
+  }
+
+  async getStats() {
+    const conn = await this.ensureConnection();
+
+    const debtUrl = `https://api.arboxapp.com/index.php/api/v1/box/${this.connection.config.boxId}/dashboard/getStats/getMembersDebtsByBox`;
+    const {data: debtCount} = await conn.serverRequest<number>(debtUrl, 'GET');
+
+    const activePlanMembersUrl = `https://api.arboxapp.com/index.php/api/v1/box/${
+      this.connection.config.boxId
+    }/dashboard/getStats/getActivePlanMembers/history?to_date=${moment().format(
+      'YYYY-MM-DD'
+    )}&from_date=${moment().subtract(6, 'month').format('YYYY-MM-DD')}`;
+    const {
+      data: {recent: activePlanMembersCount},
+    } = await conn.serverRequest<{
+      recent: number;
+    }>(activePlanMembersUrl, 'GET');
+    return {activePlanMembersCount, debtCount};
   }
 
   private async ensureConnection() {

@@ -23,6 +23,6 @@ config();
     true
   );
 
-  const res = await arbox.getSuspendedUsers();
+  const res = await arbox.getStats();
   console.log(res);
 })();
